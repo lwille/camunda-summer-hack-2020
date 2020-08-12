@@ -17,7 +17,7 @@
         <bpmn:extensionElements>
           <zeebe:taskDefinition type="send-tweet" />
           <zeebe:taskHeaders>
-            <zeebe:header key="message" value="You have been considered for the lottery" />
+            <zeebe:header key="messageTemplate" value="You have been considered for the lottery" />
           </zeebe:taskHeaders>
           <zeebe:ioMapping>
             <zeebe:input source="=tweetId" target="inReplyToStatusId" />
