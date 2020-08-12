@@ -8,7 +8,6 @@ export default class Storage<Type> {
   }
 
   take(key: string): Type {
-    const set = this.sets[key];
     const values: [Type, Type][] = Array.from(this.sets[key].entries());
     const idx = Math.floor(Math.random() * values.length);
     return values[idx][1];
