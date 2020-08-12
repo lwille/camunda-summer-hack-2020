@@ -61,6 +61,8 @@
         <zeebe:taskDefinition type="get-winner" />
         <zeebe:ioMapping>
           <zeebe:input source="=lotteryTag" target="lotteryTag" />
+          <zeebe:output source="=winnerName" target="winnerName" />
+          <zeebe:output source="=winnerTweetId" target="winnerTweetId" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16dl4m7</bpmn:incoming>
