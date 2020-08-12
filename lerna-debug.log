@@ -1,0 +1,11 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   globs: [ 'lerna.json', 'package.json', 'packages', 'README.md' ],
+0 silly argv   lernaVersion: '3.21.0',
+0 silly argv   '$0': '../../../.asdf/installs/nodejs/12.14.0/.npm/bin/lerna',
+0 silly argv   pkg: 'zeebe-client'
+0 silly argv }
+1 notice cli v3.21.0
+2 verbose rootPath /var/home/lwille/src/ext/camunda-summer-hack-2020
+3 error Error: 404 Not Found - GET https://registry.npmjs.org/zeebe-client - Not found
+3 error     at /var/home/lwille/.config/yarn/global/node_modules/@evocateur/npm-registry-fetch/check-response.js:104:15

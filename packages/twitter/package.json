@@ -1,0 +1,29 @@
+{
+  "name": "twitter",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Leonhardt Wille <leonhardt.wille@camunda.com>",
+  "homepage": "https://github.com/lwille/camunda-summer-hack-2020#readme",
+  "license": "ISC",
+  "main": "lib/twitter.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lwille/camunda-summer-hack-2020.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/lwille/camunda-summer-hack-2020/issues"
+  },
+  "dependencies": {
+    "zeebe-node": "^0.23.3"
+  }
+}
