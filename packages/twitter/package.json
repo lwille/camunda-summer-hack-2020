@@ -25,6 +25,7 @@
     "url": "https://github.com/lwille/camunda-summer-hack-2020/issues"
   },
   "dependencies": {
+    "twit": "^2.2.11",
     "zeebe-node": "^0.23.3"
   }
 }
