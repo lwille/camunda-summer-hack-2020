@@ -2,7 +2,7 @@
 
 import { Duration, ZBClient } from "zeebe-node";
 import T, { Tweet } from "./twitter-client";
-const { uuid } = require("uuidv4");
+import {v4 as uuid} from "uuid";
 
 export default (zbc: ZBClient) => {
   const stream = T.stream("statuses/filter", {
@@ -13,8 +13,9 @@ export default (zbc: ZBClient) => {
     zbc.publishStartMessage({
       messageId: uuid(),
       name: "tweetFound",
-      variables: { tweet },
+      variables: { tweet, tweetId: tweet.id_str, author: tweet.user.screen_name },
       timeToLive: Duration.seconds.of(10) // seconds
     });
   });
+  console.log('Tweet stream listening to', process.env.TWITTER_SEARCH_TERM)
 };

@@ -6,11 +6,21 @@ import T, { Tweet } from "../twitter-client";
 interface OutputVariables {}
 
 interface InputVariables {
-  tweet: Tweet;
+  inReplyToStatusId?: string
 }
 
 interface Headers {
-  message: string;
+  messageTemplate: string // "Hallo {{variables.name}}, welcome to {{variables.dings}}"
+}
+
+type Inputs = { [index: string]: string}
+
+function render(template:string, inputs:Inputs): string {
+  let text = template
+  for (var key in inputs) {
+    text = text.replace(`{{${key}}}`, inputs[key] as string)
+  }
+  return text
 }
 
 function replyToTweetHandler(
@@ -19,23 +29,21 @@ function replyToTweetHandler(
   worker: ZBWorker<InputVariables, Headers, OutputVariables>
 ) {
   worker.log("Task variables" + job.variables);
-  const message = job.customHeaders.message;
-  const replyToStatusId = job.variables.tweet.id_str;
-  const author = job.variables.tweet.user.screen_name;
+  const message = render(job.customHeaders.messageTemplate, job.variables as Inputs);
 
   console.log(
-    `will reply to tweet with status id ${replyToStatusId} and author ${author}`
+    `sending tweet ${message}`
   );
-  reply(replyToStatusId, author, message);
+  reply(message, job.variables.inReplyToStatusId);
 
   complete.success();
 }
 
-function reply(replyToStatusId: string, author: string, message: string) {
+function reply(message: string,  replyToStatusId?: string) {
   T.post(
     "statuses/update",
     {
-      status: `${message} @${author}!`,
+      status: message,
       in_reply_to_status_id: replyToStatusId
     },
     function() {
@@ -44,7 +52,7 @@ function reply(replyToStatusId: string, author: string, message: string) {
   );
 }
 export default {
-  taskType: "reply-to-tweet",
+  taskType: "send-tweet",
   taskHandler: replyToTweetHandler,
   onReady: () => console.log(`Worker connected!`),
   onConnectionError: () => console.log(`Worker disconnected!`)

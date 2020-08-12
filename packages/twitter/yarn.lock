@@ -131,6 +131,18 @@
     "@types/geojson" "*"
     "@types/node" "*"
 
+"@types/uuid@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.0.1.tgz#42958a1a880640b139eea97a1640e1a3f61016d2"
+  integrity sha512-2kE8rEFgJpbBAPw5JghccEevQb0XVU0tewF/8h7wPQTeCtoJ6h8qmBIwuzUVm2MutmzC/cpCkwxudixoNYDp1A==
+
+"@types/uuidv4@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuidv4/-/uuidv4-5.0.0.tgz#2c94e67b0c06d5adb28fb7ced1a1b5f0866ecd50"
+  integrity sha512-xUrhYSJnkTq9CP79cU3svoKTLPCIbMMnu9Twf/tMpHATYSHCAAeDNeb2a/29YORhk5p4atHhCTMsIBU/tvdh6A==
+  dependencies:
+    uuidv4 "*"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -1592,10 +1604,28 @@ util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
+uuid4@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-2.0.2.tgz#d33169f4a8fe84b217f50a0f28f971cd9ff56216"
+  integrity sha512-TzsQS8sN1B2m9WojyNp0X/3JL8J2RScnrAJnooNPL6lq3lA02/XdoWysyUgI6rAif0DzkkWk51N6OggujPy2RA==
+
+uuid@8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
+  integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
+
 uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuidv4@*:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/uuidv4/-/uuidv4-6.2.2.tgz#5e10dd4704b467e0b6e42ab0368a22bca44f069d"
+  integrity sha512-cIwuSIzx+StdJSkLYKDLje7mDfYvK88RNZuVdpCFWujf2bOIDLGCum8vY88KDNLhcFaQGWLBVHYl8U3wlqseQg==
+  dependencies:
+    "@types/uuid" "8.0.1"
+    uuid "8.3.0"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
