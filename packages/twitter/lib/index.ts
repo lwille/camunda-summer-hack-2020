@@ -28,6 +28,7 @@ const zbc = new ZBClient({
   const result = await zbc.createWorkflowInstance('lotteryProcess', {
     lotteryTag: searchTerm,
     lotteryDuration: duration,
+    ignoreList: ['JamesThe_Butler'],
 	})
 	console.log(result)
 })()
