@@ -3,7 +3,7 @@
 import { ZBClient, Job, CompleteFn, ZBWorker } from "zeebe-node";
 import Storage from "./storage";
 import { Tweet } from "twitter/lib/types";
-import TweetListener from 'twitter/lib/tweet-listener';
+import TweetListener from 'twitter/lib/tweet-listener'
 
 const zbc = new ZBClient({
   onReady: () => console.log(`Connected!`),
@@ -12,7 +12,7 @@ const zbc = new ZBClient({
 
 const storage: Storage<Tweet> = new Storage<Tweet>();
 
-var tweetListener: TweetListener;  
+var tweetListener: TweetListener;
 
 interface StoreTweet {
   lotteryTag: string;
