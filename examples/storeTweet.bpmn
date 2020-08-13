@@ -32,7 +32,7 @@
     <bpmn:sequenceFlow id="Flow_1dbulhj" sourceRef="storeTweet" targetRef="Activity_0u9om1c" />
     <bpmn:sequenceFlow id="Flow_1lvkfi6" sourceRef="Activity_0u9om1c" targetRef="Event_1xesr2d" />
   </bpmn:process>
-  <bpmn:message id="Message_1eexg2a" name="tweetFound" />
+  <bpmn:message id="Message_1eexg2a" name="ignore" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="storeTweets">
       <bpmndi:BPMNEdge id="Flow_1mzukpg_di" bpmnElement="Flow_1mzukpg">
