@@ -6,7 +6,12 @@ if (!process.env.TWITTER_SEARCH_TERM) {
   throw "Twitter search term environment variable (TWITTER_SEARCH_TERM) required!"
 }
 
+if(!process.env.LOTTERY_DURATION) {
+  throw "Lottery duration environment variable (LOTTERY_DURATION) required!"
+}
+
 const searchTerm = process.env.TWITTER_SEARCH_TERM
+const duration = process.env.LOTTERY_DURATION
 
 const zbc = new ZBClient({
   onReady: () => console.log(`Connected!`),
@@ -21,7 +26,8 @@ const zbc = new ZBClient({
 
 ;(async () => {
   const result = await zbc.createWorkflowInstance('lotteryProcess', {
-		lotteryTag: searchTerm,
+    lotteryTag: searchTerm,
+    lotteryDuration: duration,
 	})
 	console.log(result)
 })()

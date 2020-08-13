@@ -28,6 +28,7 @@ interface WinningTweet {
 zbc.createWorker(
   "store-tweet",
   (job: Job<StoreTweet>, complete: CompleteFn<{}>) => {
+    storage.new(job.variables.lotteryTag)
     storage.add(
       job.variables.lotteryTag,
       job.variables.tweet.user.screen_name,

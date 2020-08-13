@@ -15,7 +15,7 @@ export default (zbc: ZBClient, searchTerm: string) => {
       messageId: uuid(),
       name: "tweetFound",
       correlationKey: searchTerm,
-      variables: { tweet, tweetId: tweet.id_str, author: tweet.user.screen_name },
+      variables: { tweet, tweetId: tweet.id_str, author: tweet.user.screen_name, lotteryTag: searchTerm },
       timeToLive: Duration.seconds.of(10) // seconds
     });
   });
