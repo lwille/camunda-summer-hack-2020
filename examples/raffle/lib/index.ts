@@ -3,6 +3,7 @@
 import { ZBClient, Job, CompleteFn, ZBWorker } from "zeebe-node";
 import Storage from "./storage";
 import { Tweet } from "twitter/lib/types";
+import TweetListener from 'twitter/lib/tweet-listener';
 
 const zbc = new ZBClient({
   onReady: () => console.log(`Connected!`),
@@ -10,6 +11,8 @@ const zbc = new ZBClient({
 });
 
 const storage: Storage<Tweet> = new Storage<Tweet>();
+
+var tweetListener: TweetListener;  
 
 interface StoreTweet {
   lotteryTag: string;
@@ -63,5 +66,35 @@ zbc.createWorker(
 );
 zbc.createWorker("cleanup", (job: Job<LotteryId>, complete: CompleteFn<{}>) => {
   storage.drop(job.variables.lotteryTag);
+  tweetListener.stop();
   complete.success();
 });
+
+
+if (!process.env.TWITTER_SEARCH_TERM) {
+  throw "Twitter search term environment variable (TWITTER_SEARCH_TERM) required!"
+}
+const searchTerm = process.env.TWITTER_SEARCH_TERM
+
+if(!process.env.LOTTERY_DURATION) {
+  throw "Lottery duration environment variable (LOTTERY_DURATION) required!"
+}
+const duration = process.env.LOTTERY_DURATION
+
+if(!process.env.LOTTERY_IGNORE_LIST) {
+  throw "Lottery name ignore list environment variable (LOTTERY_IGNORE_LIST) required!"
+}
+const ignoreList = process.env.LOTTERY_IGNORE_LIST.split(",")
+
+;(async () => {
+  const result = await zbc.createWorkflowInstance('lotteryProcess', {
+    lotteryTag: searchTerm,
+    lotteryDuration: duration,
+    ignoreList: ignoreList,
+	})
+  console.log(result)
+  tweetListener = new TweetListener(zbc, searchTerm, "tweetFound");
+  tweetListener.start();
+})()
+
+
