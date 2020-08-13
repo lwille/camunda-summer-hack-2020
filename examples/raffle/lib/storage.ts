@@ -6,6 +6,7 @@ export default class Storage<Type> {
   store: { [index: string]: Store<Type> } = {};
 
   add(key: string, subKey: string, value: Type) {
+    this.new(key)
     this.store[key][subKey] = value;
     return this;
   }

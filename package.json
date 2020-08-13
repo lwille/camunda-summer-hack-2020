@@ -3,5 +3,9 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.21.0"
+  },
+  "dependencies": {
+    "raffle": "file:examples/raffle",
+    "twitter": "file:packages/twitter"
   }
 }

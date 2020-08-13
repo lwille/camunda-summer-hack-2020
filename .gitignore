@@ -2,3 +2,5 @@
 node_modules
 **/.envrc
 yarn-error.log
+lerna-debug.log
+package-lock.json
