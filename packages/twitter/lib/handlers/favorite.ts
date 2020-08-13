@@ -16,8 +16,6 @@ function favoriteTweetHandler(
   complete: CompleteFn<OutputVariables>,
   worker: ZBWorker<InputVariables, Headers, OutputVariables>
 ) {
-  worker.log("Task variables" + JSON.stringify(job.variables));
-
   console.log(
     `liking tweet with id ${job.variables.statusId}`
   );

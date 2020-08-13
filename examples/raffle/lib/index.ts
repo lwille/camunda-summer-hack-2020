@@ -31,13 +31,15 @@ interface WinningTweet {
 
 zbc.createWorker(
   "store-tweet",
-  (job: Job<StoreTweet>, complete: CompleteFn<{}>) => {
+  (job: Job<StoreTweet>, complete: CompleteFn<{}>, worker: ZBWorker<StoreTweet, {}, {}>) => {
+    worker.log(`Participant received ${job.variables.tweet.user.screen_name}`)
     storage.new(job.variables.lotteryTag)
     storage.add(
       job.variables.lotteryTag,
       job.variables.tweet.user.screen_name,
       job.variables.tweet
     );
+    worker.log(`Participant recorded ${job.variables.tweet.user.screen_name}`)
     complete.success();
   }
 );

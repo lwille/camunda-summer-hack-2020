@@ -11,6 +11,7 @@ export default (zbc: ZBClient, searchTerm: string) => {
   });
 
   stream.on("tweet", function(tweet: Tweet) {
+    console.log('Tweet stream listening to', process.env.TWITTER_SEARCH_TERM)
     zbc.publishStartMessage({
       messageId: uuid(),
       name: "tweetFound",
@@ -19,5 +20,5 @@ export default (zbc: ZBClient, searchTerm: string) => {
       timeToLive: Duration.seconds.of(10) // seconds
     });
   });
-  console.log('Tweet stream listening to', process.env.TWITTER_SEARCH_TERM)
+  
 };

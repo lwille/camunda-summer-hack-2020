@@ -28,7 +28,6 @@ function replyToTweetHandler(
   complete: CompleteFn<OutputVariables>,
   worker: ZBWorker<InputVariables, Headers, OutputVariables>
 ) {
-  worker.log("Task variables" + job.variables);
   const message = render(job.customHeaders.messageTemplate, job.variables as Inputs);
 
   console.log(
