@@ -20,6 +20,10 @@ interface LotteryId {
   lotteryTag: string;
 }
 
+interface DetermineWinner extends LotteryId {
+  ignoreList?: string[]
+}
+
 interface WinningTweet {
   authorName: string;
   tweetId: string;
@@ -41,11 +45,11 @@ zbc.createWorker(
 zbc.createWorker(
   "determine-winner",
   (
-    job: Job<LotteryId>,
+    job: Job<DetermineWinner>,
     complete: CompleteFn<WinningTweet>,
-    worker: ZBWorker<LotteryId, {}, WinningTweet>
+    worker: ZBWorker<DetermineWinner, {}, WinningTweet>
   ) => {
-    const tweet = storage.take(job.variables.lotteryTag);
+    const tweet = storage.take(job.variables.lotteryTag, job.variables.ignoreList);
     worker.log(
       `${tweet.user.screen_name} is the winner of ${job.variables.lotteryTag}`
     );

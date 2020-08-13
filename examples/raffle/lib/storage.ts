@@ -11,8 +11,10 @@ export default class Storage<Type> {
     return this;
   }
 
-  take(key: string): Type {
-    const subKeys = Object.keys(this.store[key]);
+  take(key: string, exceptKeys?: string[]): Type {
+    const exceptions = exceptKeys || [];
+    const subKeys = Object.keys(this.store[key]).filter((k)=>exceptions.indexOf(k) < 0);
+
     const idx = Math.floor(Math.random() * subKeys.length);
     return this.store[key][subKeys[idx]];
   }
