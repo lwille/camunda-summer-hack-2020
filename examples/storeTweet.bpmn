@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0mv2gz4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.9.1">
-  <bpmn:process id="Process_1xkcbsr" isExecutable="true">
+  <bpmn:process id="storeTweets" isExecutable="true">
     <bpmn:startEvent id="tweetReceived" name="Partipant tweet found">
       <bpmn:outgoing>Flow_1mzukpg</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_12m5j0u" messageRef="Message_1eexg2a" />
@@ -8,15 +8,18 @@
     <bpmn:serviceTask id="storeTweet" name="Store tweet">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="store-tweet" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=tweet" target="tweet" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mzukpg</bpmn:incoming>
       <bpmn:outgoing>Flow_1dbulhj</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_0u9om1c" name="Like tweet">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="like-tweet" />
+        <zeebe:taskDefinition type="favorite-tweet" />
         <zeebe:ioMapping>
-          <zeebe:input source="=tweetId" target="tweetId" />
+          <zeebe:input source="=tweetId" target="statusId" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1dbulhj</bpmn:incoming>
@@ -31,7 +34,7 @@
   </bpmn:process>
   <bpmn:message id="Message_1eexg2a" name="tweetFound" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1xkcbsr">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="storeTweets">
       <bpmndi:BPMNEdge id="Flow_1mzukpg_di" bpmnElement="Flow_1mzukpg">
         <di:waypoint x="208" y="120" />
         <di:waypoint x="260" y="120" />
