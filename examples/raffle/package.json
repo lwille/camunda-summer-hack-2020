@@ -6,5 +6,8 @@
   "dependencies": {
     "zeebe-node": "^0.23.3",
     "twitter": "file:../../packages/twitter"
+  },
+  "scripts": {
+    "start": "tsc && node ./build/index.js"
   }
 }
