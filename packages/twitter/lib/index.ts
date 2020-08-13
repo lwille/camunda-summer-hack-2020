@@ -19,9 +19,9 @@ const zbc = new ZBClient({
 });
 
 (async () => {
-  const paths = ['./handlers/tweet']
+  const paths = ['./handlers/tweet', './handlers/favorite']
   const handlers = await Promise.all(paths.map((path: string) => import(path)))
-  handlers.map((handler: any) => zbc.createWorker(handler.default));
+  handlers.forEach((handler: any) => zbc.createWorker(handler.default));
 })();
 
 ;(async () => {
