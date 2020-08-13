@@ -1,10 +1,11 @@
 FROM node:12.14 AS builder
 
-WORKDIR /app
-COPY . .
+RUN npm i -g lerna typescript
 
-RUN npm ci \
-    lerna bootstrap
+WORKDIR /app
+COPY . /app
+
+RUN lerna bootstrap
 
 FROM node:12.14-slim AS runner
 
