@@ -8,6 +8,7 @@
     "twitter": "file:../../packages/twitter"
   },
   "scripts": {
-    "start": "tsc && node ./build/index.js"
+    "start": "tsc && node ./build/index.js",
+    "postinstall": "tsc"
   }
 }
