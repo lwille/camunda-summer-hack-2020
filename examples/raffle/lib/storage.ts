@@ -1,23 +1,28 @@
-import ti from "@thi.ng/iterators";
-export default class Storage<Type> {
-  sets: { [index: string]: Set<Type> } = {};
+export interface Store<Value> {
+  [index: string]: Value;
+}
 
-  add(key: string, value: Type): this {
-    this.sets[key].add(value);
+export default class Storage<Type> {
+  store: { [index: string]: Store<Type> } = {};
+
+  add(key: string, subKey: string, value: Type) {
+    this.store[key][subKey] = value;
     return this;
   }
 
   take(key: string): Type {
-    const values: [Type, Type][] = Array.from(this.sets[key].entries());
-    const idx = Math.floor(Math.random() * values.length);
-    return values[idx][1];
+    const subKeys = Object.keys(this.store[key]);
+    const idx = Math.floor(Math.random() * subKeys.length);
+    return this.store[key][subKeys[idx]];
   }
 
   new(key: string) {
-    this.sets[key] = new Set<Type>();
+    if (!this.store[key]) {
+      this.store[key] = {};
+    }
   }
 
   drop(key: string) {
-    delete this.sets[key];
+    delete this.store[key];
   }
 }

@@ -8,8 +8,3 @@ const T = new Twit({
   strictSSL: true // optional - requires SSL certificates to be valid.
 });
 export default T;
-
-export interface Tweet {
-  id_str: string;
-  user: { screen_name: string };
-}

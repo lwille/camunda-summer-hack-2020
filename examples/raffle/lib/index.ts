@@ -1,38 +1,60 @@
 "use strict";
 
-import { ZBClient, Job, CompleteFn } from "zeebe-node";
+import { ZBClient, Job, CompleteFn, ZBWorker } from "zeebe-node";
 import Storage from "./storage";
+import { Tweet } from "twitter/lib/types";
 
 const zbc = new ZBClient({
   onReady: () => console.log(`Connected!`),
   onConnectionError: () => console.log(`Disconnected!`)
 });
 
-const storage: Storage<string> = new Storage<string>();
+const storage: Storage<Tweet> = new Storage<Tweet>();
 
-interface SetName {
-  setName: string;
-}
-interface SetAdd extends SetName {
-  value: string;
+interface StoreTweet {
+  lotteryTag: string;
+  tweet: Tweet;
 }
 
-zbc.createWorker("set-add", (job: Job<SetAdd>, complete: CompleteFn<{}>) => {
-  storage.add(job.variables.setName, job.variables.value);
-  complete.success();
-});
-zbc.createWorker("set-new", (job: Job<SetName>, complete: CompleteFn<{}>) => {
-  storage.new(job.variables.setName);
-  complete.success();
-});
+interface LotteryId {
+  lotteryTag: string;
+}
+
+interface WinningTweet {
+  authorName: string;
+  tweetId: string;
+}
+
 zbc.createWorker(
-  "set-take",
-  (job: Job<SetName>, complete: CompleteFn<{ value: string }>) => {
-    const value = storage.take(job.variables.setName);
-    complete.success({ value: value });
+  "store-tweet",
+  (job: Job<StoreTweet>, complete: CompleteFn<{}>) => {
+    storage.add(
+      job.variables.lotteryTag,
+      job.variables.tweet.user.screen_name,
+      job.variables.tweet
+    );
+    complete.success();
   }
 );
-zbc.createWorker("set-drop", (job: Job<SetName>, complete: CompleteFn<{}>) => {
-  storage.drop(job.variables.setName);
+
+zbc.createWorker(
+  "determine-winner",
+  (
+    job: Job<LotteryId>,
+    complete: CompleteFn<WinningTweet>,
+    worker: ZBWorker<LotteryId, {}, WinningTweet>
+  ) => {
+    const tweet = storage.take(job.variables.lotteryTag);
+    worker.log(
+      `${tweet.user.screen_name} is the winner of ${job.variables.lotteryTag}`
+    );
+    complete.success({
+      authorName: tweet.user.screen_name,
+      tweetId: tweet.id_str
+    });
+  }
+);
+zbc.createWorker("cleanup", (job: Job<LotteryId>, complete: CompleteFn<{}>) => {
+  storage.drop(job.variables.lotteryTag);
   complete.success();
 });

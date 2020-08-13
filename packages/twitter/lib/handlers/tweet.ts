@@ -1,7 +1,7 @@
 "use strict";
 import { Job, ZBWorker, CompleteFn } from "zeebe-node";
 
-import T, { Tweet } from "../twitter-client";
+import T from "../twitter-client";
 
 interface OutputVariables {}
 

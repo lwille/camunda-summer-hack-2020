@@ -1,7 +1,8 @@
 "use strict";
 
 import { Duration, ZBClient } from "zeebe-node";
-import T, { Tweet } from "./twitter-client";
+import T from "./twitter-client";
+import {Tweet} from './types'
 import {v4 as uuid} from "uuid";
 
 export default (zbc: ZBClient, searchTerm: string) => {
