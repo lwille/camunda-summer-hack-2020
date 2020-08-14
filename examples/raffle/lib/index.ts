@@ -60,24 +60,25 @@ zbc.createWorker(
   ) => {
     worker.log(`Trying to determinge winner for lotteryTag: ${job.variables.lotteryTag}`)
     let tweetListener = tweetListeners.get(job.variables.lotteryTag)
-    worker.log(`tweetListener is: ${JSON.stringify(tweetListener)}`)
+    worker.log(`tweetListener exists: ${tweetListeners.has(job.variables.lotteryTag)}`)
     if(!tweetListener) {
-      throw `TweetListener for ${job.variables.lotteryTag} not found`
-    }
-    tweetListener.stop();
+      complete.failure(`TweetListener for ${job.variables.lotteryTag} does not exist.`, 0);
+    } else {
+      tweetListener.stop();
 
-    const tweet = storage.take(
-      job.variables.lotteryTag,
-      job.variables.ignoreList
-    );
-    worker.log(
-      `${tweet.user.screen_name} is the winner of ${job.variables.lotteryTag}`
-    );
-    storage.drop(job.variables.lotteryTag);
-    complete.success({
-      authorName: tweet.user.screen_name,
-      tweetId: tweet.id_str
-    });
+      const tweet = storage.take(
+        job.variables.lotteryTag,
+        job.variables.ignoreList
+      );
+      worker.log(
+        `${tweet.user.screen_name} is the winner of ${job.variables.lotteryTag}`
+      );
+      storage.drop(job.variables.lotteryTag);
+      complete.success({
+        authorName: tweet.user.screen_name,
+        tweetId: tweet.id_str
+      });
+    }
   }
 );
 
