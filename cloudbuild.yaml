@@ -1,0 +1,58 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+    id: Push
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - services
+      - update
+      - twitter-bot
+      - '--platform=managed'
+      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy-raffle
+    entrypoint: gcloud
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - services
+      - update
+      - twitter-raffle
+      - '--platform=managed'
+      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy-bot
+    entrypoint: gcloud
+images:
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _TRIGGER_ID: b3465b22-bba2-4b93-a700-57ed2c7d68d9
+  _DEPLOY_REGION: europe-west1
+  _GCR_HOSTNAME: eu.gcr.io
+  _PLATFORM: managed
+  _LABELS: gcb-trigger-id=b3465b22-bba2-4b93-a700-57ed2c7d68d9
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - twitter-raffle
+  - twitter-bot
