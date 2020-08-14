@@ -57,6 +57,7 @@ zbc.createWorker(
     complete: CompleteFn<WinningTweet>,
     worker: ZBWorker<DetermineWinner, {}, WinningTweet>
   ) => {
+    tweetListener.stop();
     const tweet = storage.take(
       job.variables.lotteryTag,
       job.variables.ignoreList
@@ -64,17 +65,13 @@ zbc.createWorker(
     worker.log(
       `${tweet.user.screen_name} is the winner of ${job.variables.lotteryTag}`
     );
+    storage.drop(job.variables.lotteryTag);
     complete.success({
       authorName: tweet.user.screen_name,
       tweetId: tweet.id_str
     });
   }
 );
-zbc.createWorker("cleanup", (job: Job<LotteryId>, complete: CompleteFn<{}>) => {
-  storage.drop(job.variables.lotteryTag);
-  tweetListener.stop();
-  complete.success();
-});
 
 if (!process.env.TWITTER_SEARCH_TERM) {
   throw "Twitter search term environment variable (TWITTER_SEARCH_TERM) required!";
