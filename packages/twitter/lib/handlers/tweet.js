@@ -7,7 +7,7 @@ const twitter_client_1 = __importDefault(require("../twitter-client"));
 function render(template, inputs) {
     let text = template;
     for (var key in inputs) {
-        text = text.replace(`{{${key}}}`, inputs[key]);
+        text = text.replace(new RegExp(`{{${key}}}`,'g'), inputs[key]);
     }
     return text;
 }
