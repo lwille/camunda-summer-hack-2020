@@ -6,21 +6,21 @@ import T from "../twitter-client";
 interface OutputVariables {}
 
 interface InputVariables {
-  inReplyToStatusId?: string
+  inReplyToStatusId?: string;
 }
 
 interface Headers {
-  messageTemplate: string // "Hallo {{variables.name}}, welcome to {{variables.dings}}"
+  messageTemplate: string; // "Hallo {{variables.name}}, welcome to {{variables.dings}}"
 }
 
-type Inputs = { [index: string]: string}
+type Inputs = { [index: string]: string };
 
-function render(template:string, inputs:Inputs): string {
-  let text = template
+function render(template: string, inputs: Inputs): string {
+  let text = template;
   for (var key in inputs) {
-    text = text.replace(`{{${key}}}`, inputs[key] as string)
+    text = text.replace(`{{${key}}}`, inputs[key] as string);
   }
-  return text
+  return text;
 }
 
 function replyToTweetHandler(
@@ -28,17 +28,18 @@ function replyToTweetHandler(
   complete: CompleteFn<OutputVariables>,
   worker: ZBWorker<InputVariables, Headers, OutputVariables>
 ) {
-  const message = render(job.customHeaders.messageTemplate, job.variables as Inputs);
-
-  console.log(
-    `sending tweet ${message}`
+  const message = render(
+    job.customHeaders.messageTemplate,
+    job.variables as Inputs
   );
+
+  console.log(`sending tweet ${message}`);
   reply(message, job.variables.inReplyToStatusId);
 
   complete.success();
 }
 
-function reply(message: string,  replyToStatusId?: string) {
+function reply(message: string, replyToStatusId?: string) {
   T.post(
     "statuses/update",
     {

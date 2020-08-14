@@ -6,7 +6,7 @@ import T from "../twitter-client";
 interface OutputVariables {}
 
 interface InputVariables {
-  statusId?: string
+  statusId?: string;
 }
 
 interface Headers {}
@@ -16,9 +16,7 @@ function favoriteTweetHandler(
   complete: CompleteFn<OutputVariables>,
   worker: ZBWorker<InputVariables, Headers, OutputVariables>
 ) {
-  console.log(
-    `liking tweet with id ${job.variables.statusId}`
-  );
+  console.log(`liking tweet with id ${job.variables.statusId}`);
   favorite(job.variables.statusId);
 
   complete.success();

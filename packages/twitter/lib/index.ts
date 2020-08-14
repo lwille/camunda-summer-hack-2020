@@ -1,7 +1,7 @@
 "use strict";
 
 import { ZBClient } from "zeebe-node";
-import healthEndpoint from "./health-endpoint"
+import healthEndpoint from "./health-endpoint";
 
 const zbc = new ZBClient({
   onReady: () => console.log(`Connected!`),
@@ -9,8 +9,8 @@ const zbc = new ZBClient({
 });
 
 (async () => {
-  const paths = ['./handlers/tweet', './handlers/favorite']
-  const handlers = await Promise.all(paths.map((path: string) => import(path)))
+  const paths = ["./handlers/tweet", "./handlers/favorite"];
+  const handlers = await Promise.all(paths.map((path: string) => import(path)));
   handlers.forEach((handler: any) => zbc.createWorker(handler.default));
 })();
 

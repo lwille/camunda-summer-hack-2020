@@ -1,6 +1,6 @@
 import express from "express";
 
-const { startRaffle } = require('./index');
+const { startRaffle } = require("./index");
 const app = express();
 const port = process.env.PORT || 3000;
 
