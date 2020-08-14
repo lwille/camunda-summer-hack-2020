@@ -12,7 +12,8 @@ const zbc = new ZBClient({
 
 const storage: Storage<Tweet> = new Storage<Tweet>();
 
-var tweetListener: TweetListener;
+const tweetListeners = new Map<string, TweetListener>()
+
 interface StoreTweet {
   lotteryTag: string;
   tweet: Tweet;
@@ -57,7 +58,12 @@ zbc.createWorker(
     complete: CompleteFn<WinningTweet>,
     worker: ZBWorker<DetermineWinner, {}, WinningTweet>
   ) => {
+    let tweetListener = tweetListeners.get(job.variables.lotteryTag)
+    if(!tweetListener) {
+      throw `TweetListener for ${job.variables.lotteryTag} not found`
+    }
     tweetListener.stop();
+
     const tweet = storage.take(
       job.variables.lotteryTag,
       job.variables.ignoreList
@@ -84,13 +90,14 @@ if (!process.env.LOTTERY_IGNORE_LIST) {
 const ignoreList = process.env.LOTTERY_IGNORE_LIST.split(",");
 
 const startRaffle = async (hashtag: string) => {
-  const result = await zbc.createWorkflowInstance("lotteryProcess", {
+  const tweetListener = new TweetListener(zbc, hashtag, "tweetFound");
+  tweetListeners.set(hashtag, tweetListener);
+
+  await zbc.createWorkflowInstance("lotteryProcess", {
     lotteryTag: hashtag,
     lotteryDuration: duration,
     ignoreList: ignoreList
   });
-  console.log(result);
-  tweetListener = new TweetListener(zbc, hashtag, "tweetFound");
   tweetListener.start();
 };
 
