@@ -58,7 +58,9 @@ zbc.createWorker(
     complete: CompleteFn<WinningTweet>,
     worker: ZBWorker<DetermineWinner, {}, WinningTweet>
   ) => {
+    worker.log(`Trying to determinge winner for lotteryTag: ${job.variables.lotteryTag}`)
     let tweetListener = tweetListeners.get(job.variables.lotteryTag)
+    worker.log(`tweetListener is: ${JSON.stringify(tweetListener)}`)
     if(!tweetListener) {
       throw `TweetListener for ${job.variables.lotteryTag} not found`
     }
