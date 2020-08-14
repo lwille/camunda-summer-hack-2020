@@ -1,4 +1,4 @@
-FROM node:12.14-slim AS builder
+FROM node:12.14 AS builder
 
 RUN npm i -g lerna typescript
 
