@@ -5,7 +5,7 @@
   "author": "Leonhardt Wille <leonhardt.wille@camunda.com>",
   "homepage": "https://github.com/lwille/camunda-summer-hack-2020#readme",
   "license": "ISC",
-  "main": "lib/twitter.js",
+  "main": "lib/index.js",
   "directories": {
     "build": "build",
     "lib": "lib",

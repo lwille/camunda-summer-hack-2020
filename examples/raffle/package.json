@@ -1,7 +1,7 @@
 {
   "name": "raffle",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "lib/server.js",
   "license": "MIT",
   "dependencies": {
     "@types/express": "^4.17.7",
