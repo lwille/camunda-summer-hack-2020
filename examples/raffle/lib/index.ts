@@ -73,11 +73,6 @@ zbc.createWorker(
   }
 );
 
-if (!process.env.TWITTER_SEARCH_TERM) {
-  throw "Twitter search term environment variable (TWITTER_SEARCH_TERM) required!";
-}
-const searchTerm = process.env.TWITTER_SEARCH_TERM;
-
 if (!process.env.LOTTERY_DURATION) {
   throw "Lottery duration environment variable (LOTTERY_DURATION) required!";
 }
