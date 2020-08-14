@@ -10,7 +10,7 @@
     "zeebe-node": "^0.23.3"
   },
   "scripts": {
-    "start": "tsc && node ./build/index.js",
+    "start": "tsc && node ./lib/server.js",
     "postinstall": "tsc"
   }
 }

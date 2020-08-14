@@ -20,7 +20,7 @@
     "url": "git+https://github.com/lwille/camunda-summer-hack-2020.git"
   },
   "scripts": {
-    "start": "tsc && node ./build/index.js",
+    "start": "tsc && node ./lib/index.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "postinstall": "tsc"
   },

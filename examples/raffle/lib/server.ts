@@ -1,9 +1,9 @@
 import express from "express";
 
+const { startRaffle } = require('./index');
 const app = express();
-const port = process.env.PORT || 3000; // default port to listen
+const port = process.env.PORT || 3000;
 
-// define a route handler for the default home page
 app.get("/", async (req, res) => {
   let flash = "";
   if (req.query.success && req.query.hashtag) {
@@ -26,11 +26,10 @@ app.get("/start", async (req, res) => {
   if (!req.query.hashtag) {
     return res.status(400).send("hashtag query param must be set");
   }
-  // await doStuff() here
+  await startRaffle(req.query.hashtag as string);
   res.redirect(`/?success=true&hashtag=${req.query.hashtag}`);
 });
 
-// start the Express server
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
 });

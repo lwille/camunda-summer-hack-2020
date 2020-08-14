@@ -20,8 +20,8 @@ export default class TweetListener {
   }
 
   public start() {
+    console.log('Tweet stream listening to', this.searchTerm);
     this.stream.on("tweet", (tweet: Tweet) => {
-      console.log('Tweet stream listening to', this.searchTerm)
       this.zbc.publishStartMessage({
         messageId: uuid(),
         name: this.messageName,

@@ -13,7 +13,6 @@ const zbc = new ZBClient({
 const storage: Storage<Tweet> = new Storage<Tweet>();
 
 var tweetListener: TweetListener;
-
 interface StoreTweet {
   lotteryTag: string;
   tweet: Tweet;
@@ -91,13 +90,16 @@ if (!process.env.LOTTERY_IGNORE_LIST) {
   throw "Lottery name ignore list environment variable (LOTTERY_IGNORE_LIST) required!";
 }
 const ignoreList = process.env.LOTTERY_IGNORE_LIST.split(",");
-(async () => {
+
+const startRaffle = async (hashtag: string) => {
   const result = await zbc.createWorkflowInstance("lotteryProcess", {
-    lotteryTag: searchTerm,
+    lotteryTag: hashtag,
     lotteryDuration: duration,
     ignoreList: ignoreList
   });
   console.log(result);
-  tweetListener = new TweetListener(zbc, searchTerm, "tweetFound");
+  tweetListener = new TweetListener(zbc, hashtag, "tweetFound");
   tweetListener.start();
-})();
+};
+
+module.exports = { startRaffle };
