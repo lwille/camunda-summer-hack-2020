@@ -18,7 +18,7 @@ type Inputs = { [index: string]: string };
 function render(template: string, inputs: Inputs): string {
   let text = template;
   for (var key in inputs) {
-    text = text.replace(`{{${key}}}`, inputs[key] as string);
+    text = text.replace(new RegExp(`{{${key}}}`,'g'), inputs[key] as string);
   }
   return text;
 }

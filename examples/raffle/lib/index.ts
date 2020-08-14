@@ -12,7 +12,7 @@ const zbc = new ZBClient({
 
 const storage: Storage<Tweet> = new Storage<Tweet>();
 
-const tweetListeners = new Map<string, TweetListener>()
+const tweetListeners = new Map<string, TweetListener>();
 
 interface StoreTweet {
   lotteryTag: string;
@@ -58,11 +58,18 @@ zbc.createWorker(
     complete: CompleteFn<WinningTweet>,
     worker: ZBWorker<DetermineWinner, {}, WinningTweet>
   ) => {
-    worker.log(`Trying to determinge winner for lotteryTag: ${job.variables.lotteryTag}`)
-    let tweetListener = tweetListeners.get(job.variables.lotteryTag)
-    worker.log(`tweetListener exists: ${tweetListeners.has(job.variables.lotteryTag)}`)
-    if(!tweetListener) {
-      complete.failure(`TweetListener for ${job.variables.lotteryTag} does not exist.`, 0);
+    worker.log(
+      `Trying to determinge winner for lotteryTag: ${job.variables.lotteryTag}`
+    );
+    let tweetListener = tweetListeners.get(job.variables.lotteryTag);
+    worker.log(
+      `tweetListener exists: ${tweetListeners.has(job.variables.lotteryTag)}`
+    );
+    if (!tweetListener) {
+      complete.failure(
+        `TweetListener for ${job.variables.lotteryTag} does not exist.`,
+        0
+      );
     } else {
       tweetListener.stop();
 
